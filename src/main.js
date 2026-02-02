@@ -33,8 +33,10 @@
 async function getPokemon() {
   // make web request to API
   // save the response
-  let randomNumber = await delayedRandomNumber()
-  let response = await fetch("https://pokeapi.co/api/v2/pokemon/" + randomNumber);
+  let randomNumber = await delayedRandomNumber();
+  let response = await fetch(
+    "https://pokeapi.co/api/v2/pokemon/" + randomNumber,
+  );
   let bodyData = await response.json();
   //process the saved response from the API
   console.log(bodyData);
@@ -42,20 +44,24 @@ async function getPokemon() {
   // create HTML elements that use the response from the API
   let pokemonContainer = document.getElementById("pokemonDataContainer");
   // let pokemonNameHeader = document.createElement("h2");
-  let pokemonNameHeader = document.getElementById("pokemonName")
-  pokemonNameHeader.innerText = bodyData.name;
+  let pokemonNameHeader = document.getElementById("pokemonName");
+
+  // create function to capitalize first letter of string
+  function capitalizeFirstLetter(string) {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+  }
+
+  // pokemonNameHeader.innerText = bodyData.name;
+  pokemonNameHeader.innerText = capitalizeFirstLetter(bodyData.name);
 
   // add those HTML elements to the page
   pokemonContainer.appendChild(pokemonNameHeader);
 }
 // await fetch is async blocking
-//getPokemon();
 
-
-async function delayedRandomNumber(){
-
+async function delayedRandomNumber() {
   // async blocking delay within the function
-  await new Promise(resolve => setTimeout(resolve, Math.random() * 500));
+  await new Promise((resolve) => setTimeout(resolve, Math.random() * 500));
   return Math.floor(Math.random() * 1025) + 1;
 
   // set timeout is non-blocking async
@@ -64,9 +70,9 @@ async function delayedRandomNumber(){
   // }, Math.random() * 2000)
 }
 
-const button = document.getElementById("pokeButton");
-button.addEventListener("click", function () {
-  getPokemon()
-})
 // create an event listener for the click on the button
 // to get a random pokemon
+const button = document.getElementById("pokeButton");
+button.addEventListener("click", function () {
+  getPokemon();
+});
